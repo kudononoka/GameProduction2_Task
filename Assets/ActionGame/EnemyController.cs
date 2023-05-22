@@ -11,7 +11,7 @@ public class EnemyController : CharactersBase
     Transform _playerPos;
     void Start()
     {
-        _playerPos = GameObject.Find("Player").GetComponent<Transform>();
+        _playerPos = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
     }
 
     // Update is called once per frame

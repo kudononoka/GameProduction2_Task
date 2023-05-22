@@ -9,10 +9,7 @@ public class CollisionDetectionController : MonoBehaviour
     [SerializeField]List<Transform> _targetPos;
     [SerializeField]List<CharactersBase> _targetCharactersBase;
     [SerializeField]List<GameObject> _targetGO;
-    List<Hit> _hitList = new List<Hit>();
     [SerializeField]string _targetTagName;
-    float disXHit;
-    float disYHit;
     private void Awake()
     {
         _targetGO = GameObject.FindGameObjectsWithTag(_targetTagName).ToList();
@@ -28,10 +25,6 @@ public class CollisionDetectionController : MonoBehaviour
             {
                 _targetPos.Add(_targetGO[i].GetComponent<Transform>());
                 _targetCharactersBase.Add(_targetGO[i].GetComponent<CharactersBase>());
-                float disXHit = (transform.localScale.x / 2) + (_targetPos[i].localScale.x / 2);
-                float disYHit = (transform.localScale.y / 2) + (_targetPos[i].localScale.y / 2);
-                Hit hit = new Hit(disYHit, disXHit);
-                _hitList.Add(hit);
             }
         }
     }
@@ -40,8 +33,6 @@ public class CollisionDetectionController : MonoBehaviour
     void Update()
     {
         HitJudge();
-            
-        
     }
     public void NullChack()
     {
@@ -61,9 +52,8 @@ public class CollisionDetectionController : MonoBehaviour
         {
             if (_targetPos[i] != null)
             {
-                Transform _target = _targetPos[i];
-                float dis = Vector2.Distance(transform.position, _target.position);
-                if (dis <= _hitList[i].DisXHit || dis <= _hitList[i].DisYHit)
+                Transform target = _targetPos[i];
+                if (HitJudge2(target))
                 {
                     _targetCharactersBase[i].Damage();
                     Destroy(gameObject);
@@ -71,20 +61,49 @@ public class CollisionDetectionController : MonoBehaviour
             }
         }
     }
-}
 
-
-
-public struct Hit
-{
-    private float disYHit;
-    private float disXHit;
-
-    public float DisYHit => disYHit;
-    public float DisXHit => disXHit;
-    public Hit(float disYHit, float disXHit)
+    bool HitJudge2(Transform target)
     {
-        this.disYHit = disYHit;
-        this.disXHit = disXHit;
+        //上下の当たりフラグ
+        bool updown = false;
+        //左右の当たりフラグ
+        bool rightleft = false;
+        //斜めの当たりフラグ
+        bool diagonal = false;
+        //対象の中心座標と半径
+        float tarPosX = target.position.x;
+        float tarPosY = target.position.y;
+        float r = target.localScale.x / 2;
+　　　　
+        //自分の左斜め角の座標と右斜め下の角の座標
+        float x = transform.position.x - (transform.localScale.x / 2);
+        float y = transform.position.y + (transform.localScale.y / 2);
+        float x2 = transform.position.x + (transform.localScale.x / 2);
+        float y2 = transform.position.y - (transform.localScale.y / 2);
+
+        //上下の当たり判定
+        if((x < tarPosX  && tarPosX < x2) && (y - r < tarPosY && tarPosY < y2 + r ))
+        {
+            updown = true;
+        }
+        //左右の当たり判定
+        if((y < tarPosY && tarPosY < y2) && (x - r < tarPosX && tarPosX < x2 + r))
+        {
+            rightleft = true;
+        }
+        //斜めの当たり判定
+        if (Mathf.Pow(x - tarPosX, 2) + Mathf.Pow(y - tarPosY, 2) < Mathf.Pow(r, 2) ||
+           Mathf.Pow(x2 - tarPosX, 2) + Mathf.Pow(y - tarPosY, 2) < Mathf.Pow(r, 2) ||
+           Mathf.Pow(x - tarPosX, 2) + Mathf.Pow(y2 - tarPosY, 2) < Mathf.Pow(r, 2) ||
+           Mathf.Pow(x2 - tarPosX, 2) + Mathf.Pow(y2 - tarPosY, 2) < Mathf.Pow(r, 2))
+        {
+            diagonal = true;
+        }
+        
+        //どれか一つでも当たったらtrueを返す
+        return updown || rightleft || diagonal;
     }
 }
+
+
+
