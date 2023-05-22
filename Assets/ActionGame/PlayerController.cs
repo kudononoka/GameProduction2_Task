@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : CharactersBase
 {
     [SerializeField, Header("移動速度")] float _moveSpeed;
     /// <summary>ジャンプするときの最初の初速度</summary>
@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     bool _isJump = false;
     /// <summary>ジャンプした数</summary>
     int _jumpCount = 0;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -66,5 +67,12 @@ public class PlayerController : MonoBehaviour
         }
 
         transform.position = pos;
+
+        if(Input.GetKeyDown(KeyCode.Z))
+        {
+            Generate();
+        }
     }
+
+    
 }
