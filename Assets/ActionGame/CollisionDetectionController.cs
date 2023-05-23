@@ -12,14 +12,28 @@ public class CollisionDetectionController : MonoBehaviour
     [SerializeField]string _targetTagName;
     private void Awake()
     {
-        _targetGO = GameObject.FindGameObjectsWithTag(_targetTagName).ToList();
-       
+        
     }
 
 
     void Start()
     { 
-        if(_targetGO.Count > 0)
+        TargetDataClear();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        HitJudge();
+    }
+
+    public void TargetDataClear()
+    {
+        _targetGO.Clear();
+        _targetPos.Clear();
+        _targetCharactersBase.Clear();
+        _targetGO = GameObject.FindGameObjectsWithTag(_targetTagName).ToList();
+        if (_targetGO.Count > 0)
         {
             for (int i = 0; i < _targetGO.Count; i++)
             {
@@ -27,12 +41,6 @@ public class CollisionDetectionController : MonoBehaviour
                 _targetCharactersBase.Add(_targetGO[i].GetComponent<CharactersBase>());
             }
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        HitJudge();
     }
     public void NullChack()
     {
