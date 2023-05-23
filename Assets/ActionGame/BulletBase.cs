@@ -1,24 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 
-public class CollisionDetectionController : MonoBehaviour
+public class BulletBase : MonoBehaviour
 {
-    [SerializeField]List<Transform> _targetPos;
-    [SerializeField]List<CharactersBase> _targetCharactersBase;
-    [SerializeField]List<GameObject> _targetGO;
-    [SerializeField]string _targetTagName;
-    
+    [SerializeField] List<Transform> _targetPos;
+    [SerializeField] List<CharactersBase> _targetCharactersBase;
+    [SerializeField] List<GameObject> _targetGO;
+    [SerializeField] string _targetTagName;
+    [SerializeField] float _moveSpeed = 5;
+    [SerializeField] float _lifetime;
+    [SerializeField] bool _isPlayer;
+    Vector2 dir;
+    // Start is called before the first frame update
     void Start()
-    { 
+    {
         TargetDataClear();
+        Destroy(gameObject, _lifetime);
+        if (_isPlayer)
+        {
+            Transform tra = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+            dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - tra.position).normalized;
+        }
+        else
+        {
+            dir.x = -1;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        Vector3 pos = transform.position;
+
+        if (_isPlayer)
+        {
+            pos.x += dir.x * _moveSpeed * Time.deltaTime;
+            pos.y += dir.y * _moveSpeed * Time.deltaTime;
+        }
+        else
+        {
+            pos.x += dir.x * _moveSpeed * Time.deltaTime;
+        }
+        transform.position = pos;
         HitJudge();
     }
 
@@ -39,7 +64,7 @@ public class CollisionDetectionController : MonoBehaviour
     }
     public void NullChack()
     {
-        for(int i = 0; i < _targetGO.Count;i++)
+        for (int i = 0; i < _targetGO.Count; i++)
         {
             if (_targetGO[i] == null)
             {
@@ -77,7 +102,7 @@ public class CollisionDetectionController : MonoBehaviour
         float tarPosX = target.position.x;
         float tarPosY = target.position.y;
         float r = target.localScale.x / 2;
-　　　　
+
         //自分の左斜め角の座標と右斜め下の角の座標
         float x = transform.position.x - (transform.localScale.x / 2);
         float y = transform.position.y + (transform.localScale.y / 2);
@@ -85,12 +110,12 @@ public class CollisionDetectionController : MonoBehaviour
         float y2 = transform.position.y - (transform.localScale.y / 2);
 
         //上下の当たり判定
-        if((x < tarPosX  && tarPosX < x2) && (y - r < tarPosY && tarPosY < y2 + r ))
+        if ((x < tarPosX && tarPosX < x2) && (y - r < tarPosY && tarPosY < y2 + r))
         {
             updown = true;
         }
         //左右の当たり判定
-        if((y < tarPosY && tarPosY < y2) && (x - r < tarPosX && tarPosX < x2 + r))
+        if ((y < tarPosY && tarPosY < y2) && (x - r < tarPosX && tarPosX < x2 + r))
         {
             rightleft = true;
         }
@@ -102,11 +127,8 @@ public class CollisionDetectionController : MonoBehaviour
         {
             diagonal = true;
         }
-        
+
         //どれか一つでも当たったらtrueを返す
         return updown || rightleft || diagonal;
     }
 }
-
-
-

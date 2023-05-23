@@ -7,15 +7,20 @@ public class BulletController : MonoBehaviour
     [SerializeField] float _moveSpeed = 5;
     [SerializeField] float _lifetime;
     [SerializeField] bool _isPlayer;
-    float _moveDir = 0;
     Vector2 dir;
     // Start is called before the first frame update
     void Start()
     {
         Destroy(gameObject, _lifetime);
-        _moveDir = _isPlayer ? 1 : -1;
-        Transform tra =  GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - tra.position).normalized;
+        if(_isPlayer )
+        {
+            Transform tra = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+            dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - tra.position).normalized;
+        }
+        else
+        {
+            dir.x = -1;
+        }
     }
 
     // Update is called once per frame
@@ -31,7 +36,7 @@ public class BulletController : MonoBehaviour
         }
         else
         {
-            pos.x += _moveDir * _moveSpeed * Time.deltaTime;
+            pos.x += dir.x * _moveSpeed * Time.deltaTime;
         }
         transform.position = pos;
     }
