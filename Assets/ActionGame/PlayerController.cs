@@ -67,11 +67,16 @@ public class PlayerController : CharactersBase
         }
 
         transform.position = pos;
-
-        if(Input.GetKeyDown(KeyCode.Z))
+        Vector2 dir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        
+        float _radian = Mathf.Atan2(dir.y, dir.x);
+        transform.rotation = Quaternion.AngleAxis(_radian * 180 / Mathf.PI, Vector3.forward);
+        if (Input.GetKeyDown(KeyCode.Z))
         {
-            Generate();
+            Generate(transform.rotation);
         }
+
+        
     }
 
     

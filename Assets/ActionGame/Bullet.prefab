@@ -100,7 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 5
   _lifetime: 6
-  _isMoveDirRight: 1
+  _isPlayer: 1
 --- !u!114 &-2064335402792066925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,4 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc6342af30cbea34c841216faa84641d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _targetPos: []
+  _targetCharactersBase: []
+  _targetGO: []
   _targetTagName: Enemy

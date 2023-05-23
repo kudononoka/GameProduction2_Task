@@ -6,20 +6,33 @@ public class BulletController : MonoBehaviour
 {
     [SerializeField] float _moveSpeed = 5;
     [SerializeField] float _lifetime;
-    [SerializeField] bool _isMoveDirRight;
+    [SerializeField] bool _isPlayer;
     float _moveDir = 0;
+    Vector2 dir;
     // Start is called before the first frame update
     void Start()
     {
         Destroy(gameObject, _lifetime);
-        _moveDir = _isMoveDirRight ? 1 : -1;
+        _moveDir = _isPlayer ? 1 : -1;
+        Transform tra =  GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - tra.position).normalized;
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         Vector3 pos = transform.position;
-        pos.x += _moveDir * _moveSpeed * Time.deltaTime;
+        
+        if(_isPlayer)
+        {
+            pos.x += dir.x * _moveSpeed * Time.deltaTime;
+            pos.y += dir.y * _moveSpeed * Time.deltaTime;
+        }
+        else
+        {
+            pos.x += _moveDir * _moveSpeed * Time.deltaTime;
+        }
         transform.position = pos;
     }
 

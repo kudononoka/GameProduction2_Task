@@ -28,7 +28,7 @@ public class EnemyController : CharactersBase
         _attacktimer += Time.deltaTime;
         if(_attacktimer > _intervalTime)
         {
-            Generate();
+            Generate(Quaternion.identity);
             _attacktimer = 0;
         }
     }

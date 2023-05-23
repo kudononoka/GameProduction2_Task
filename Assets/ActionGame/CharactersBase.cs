@@ -14,9 +14,9 @@ public class CharactersBase : MonoBehaviour
     {
         _nowHp = _maxHp;
     }
-    protected void Generate()
+    protected void Generate(Quaternion rotate)
     {
-        Instantiate(_bulletPrefab, _bulletGeneratePos.position, Quaternion.identity);
+        Instantiate(_bulletPrefab, _bulletGeneratePos.position, rotate);
 
     }
 
