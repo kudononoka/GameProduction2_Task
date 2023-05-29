@@ -10,8 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9113102115680508416}
   - component: {fileID: 8517394897866583413}
-  - component: {fileID: 7798239513585353048}
-  - component: {fileID: -2064335402792066925}
   - component: {fileID: -2454593258744304103}
   m_Layer: 0
   m_Name: Bullet
@@ -87,37 +85,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7798239513585353048
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4531135403774039948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d5742163c5214a4dbc8773c9361abed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _moveSpeed: 5
-  _lifetime: 6
-  _isPlayer: 1
---- !u!114 &-2064335402792066925
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4531135403774039948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc6342af30cbea34c841216faa84641d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _targetPos: []
-  _targetCharactersBase: []
-  _targetGO: []
-  _targetTagName: Enemy
 --- !u!114 &-2454593258744304103
 MonoBehaviour:
   m_ObjectHideFlags: 0

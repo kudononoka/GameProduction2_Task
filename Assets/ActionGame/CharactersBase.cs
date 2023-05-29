@@ -17,7 +17,6 @@ public class CharactersBase : MonoBehaviour
     protected void Generate(Quaternion rotate)
     {
         Instantiate(_bulletPrefab, _bulletGeneratePos.position, rotate);
-
     }
 
     public void Damage()

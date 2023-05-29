@@ -64,6 +64,7 @@ public class PlayerController : CharactersBase
             _isJump = false;
             _jumpCount = 0;
             _jumpingTime = 0;
+            pos.y = _playerIsGroundPosY;
         }
 
         transform.position = pos;

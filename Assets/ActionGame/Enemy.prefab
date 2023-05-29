@@ -132,5 +132,5 @@ MonoBehaviour:
   _bulletPrefab: {fileID: 4531135403774039948, guid: 2cac12a2cb4255944be440d0032c0817, type: 3}
   _bulletGeneratePos: {fileID: 1883005378}
   _maxHp: 3
-  _attackDistance: 5
-  _intervalTime: 3
+  _attackDistance: 10
+  _intervalTime: 5
