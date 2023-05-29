@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7160854174966924355}
   m_Layer: 0
   m_Name: Bullet 1
-  m_TagString: Untagged
+  m_TagString: EnemyBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -101,6 +101,6 @@ MonoBehaviour:
   _targetCharactersBase: []
   _targetGO: []
   _targetTagName: Player
-  _moveSpeed: 5
+  _moveSpeed: 0.5
   _lifetime: 10
   _isPlayer: 0

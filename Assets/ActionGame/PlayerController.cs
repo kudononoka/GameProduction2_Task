@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PlayerController : CharactersBase
 {
+    [SerializeField, Header("レーザーPrefab")] GameObject _laserPrefab;
+    /// <summary>キー何秒長押しでレーザーを生成させるか</summary>
+    [SerializeField, Header("レーザー生成までの時間")]float _laserTimeInterval;
+    float _laserTimer;
     [SerializeField, Header("移動速度")] float _moveSpeed;
     /// <summary>ジャンプするときの最初の初速度</summary>
     [SerializeField, Header("ジャンプ力")] float _jumpPower;
@@ -72,9 +76,22 @@ public class PlayerController : CharactersBase
         
         float _radian = Mathf.Atan2(dir.y, dir.x);
         transform.rotation = Quaternion.AngleAxis(_radian * 180 / Mathf.PI, Vector3.forward);
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKey(KeyCode.Z))
         {
-            Generate(transform.rotation);
+            _laserTimer += Time.deltaTime;
+            if (_laserTimer > _laserTimeInterval && _laserTimer < _laserTimeInterval + Time.deltaTime)
+            {
+                Instantiate(_laserPrefab, _bulletGeneratePos.position, transform.rotation);
+            }
+            
+        }
+        else if (Input.GetKeyUp(KeyCode.Z))
+        {
+            if (_laserTimer < _laserTimeInterval)
+            {
+                Generate(transform.rotation);
+            }
+            _laserTimer = 0;
         }
 
         

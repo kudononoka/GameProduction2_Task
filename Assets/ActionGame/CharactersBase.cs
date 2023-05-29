@@ -5,7 +5,7 @@ using UnityEngine;
 public class CharactersBase : MonoBehaviour
 {
     [SerializeField, Header("’eŠÛPrefab")] GameObject _bulletPrefab;
-    [SerializeField, Header("’eŠÛ¶¬êŠ")] Transform _bulletGeneratePos;
+    [SerializeField, Header("’eŠÛ¶¬êŠ")]protected Transform _bulletGeneratePos;
     /// <summary>Å‘å’lHP</summary>
     [SerializeField, Header("HpÅ‘å’l")]protected int _maxHp = 5;
     /// <summary>Œ»İ‚ÌHP</summary>
@@ -19,9 +19,9 @@ public class CharactersBase : MonoBehaviour
         Instantiate(_bulletPrefab, _bulletGeneratePos.position, rotate);
     }
 
-    public void Damage()
+    public void Damage(int damage)
     {
-        _nowHp--;
+        _nowHp-= damage;
         if (_nowHp <= 0)
         {
             CollisionDetectionController[] collisions = FindObjectsOfType<CollisionDetectionController>();

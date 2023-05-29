@@ -83,7 +83,7 @@ public class BulletBase : MonoBehaviour
                 Transform target = _targetPos[i];
                 if (HitJudge2(target))
                 {
-                    _targetCharactersBase[i].Damage();
+                    _targetCharactersBase[i].Damage(1);
                     Destroy(gameObject);
                 }
             }

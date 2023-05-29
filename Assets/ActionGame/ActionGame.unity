@@ -1087,6 +1087,8 @@ MonoBehaviour:
   _bulletPrefab: {fileID: 4531135403774039948, guid: 63396278b3241964fbdd4ff9ffc1ccbf, type: 3}
   _bulletGeneratePos: {fileID: 1790486901}
   _maxHp: 5
+  _laserPrefab: {fileID: 5379119950025966580, guid: f340c11957c63ec429710a9c7f79cf6c, type: 3}
+  _laserTimeInterval: 1
   _moveSpeed: 5
   _jumpPower: 7
 --- !u!212 &1637088855
