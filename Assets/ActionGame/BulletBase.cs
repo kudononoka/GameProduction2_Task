@@ -84,6 +84,15 @@ public class BulletBase : MonoBehaviour
                 if (HitJudge2(target))
                 {
                     _targetCharactersBase[i].Damage(1);
+                    float vec = transform.position.x - target.position.x;
+                    if (_targetTagName == "Player")
+                    {
+                        _targetGO[i].GetComponent<PlayerController>().IsKnockBack(vec > 0 ? -1 : 1);
+                    }
+                    else
+                    {
+                        _targetGO[i].GetComponent<EnemyController>().IsKnockBack(vec > 0 ? -1 : 1);
+                    }
                     Destroy(gameObject);
                 }
             }

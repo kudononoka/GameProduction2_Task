@@ -10,6 +10,8 @@ public class CharactersBase : MonoBehaviour
     [SerializeField, Header("Hpç≈ëÂíl")]protected int _maxHp = 5;
     /// <summary>åªç›ÇÃHP</summary>
     protected int _nowHp = 0;
+    
+    
     private void Awake()
     {
         _nowHp = _maxHp;
@@ -21,15 +23,17 @@ public class CharactersBase : MonoBehaviour
 
     public void Damage(int damage)
     {
-        _nowHp-= damage;
+        _nowHp -= damage;
         if (_nowHp <= 0)
         {
             CollisionDetectionController[] collisions = FindObjectsOfType<CollisionDetectionController>();
             foreach (CollisionDetectionController collision in collisions)
             {
-                 collision.NullChack();
+                collision.NullChack();
             }
             Destroy(this.gameObject);
         }
     }
+
+    
 }

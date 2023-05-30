@@ -135,3 +135,4 @@ MonoBehaviour:
   _attackDistance: 3
   _intervalTime: 5
   _moveSpeed: 2
+  _backTime: 0.2

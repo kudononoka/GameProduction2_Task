@@ -21,7 +21,10 @@ public class PlayerController : CharactersBase
     bool _isJump = false;
     /// <summary>ジャンプした数</summary>
     int _jumpCount = 0;
-    
+    bool _isKnockBack = false;
+    float _knockBackDir = 1;
+    [SerializeField] float _backTime;
+    float _backTimer;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,8 +38,24 @@ public class PlayerController : CharactersBase
         Vector3 pos = transform.position;
         //横移動
         pos.x += x * _moveSpeed * Time.deltaTime;
+
+        if (_isKnockBack)
+        {
+            _backTimer += Time.deltaTime;
+            pos = transform.position;
+            pos.x += (0.01f * _knockBackDir);
+            transform.position = pos;
+            if (_backTimer > _backTime)
+            {
+                _isKnockBack = false;
+            }
+        }
+        else
+        {
+            _backTimer = 0;
+        }
         //ジャンプ二段まで
-        if(Input.GetKeyDown(KeyCode.Space) && _jumpCount < 2)
+        if (Input.GetKeyDown(KeyCode.Space) && _jumpCount < 2)
         {
             //ジャンプをしていなかったら
             if(_jumpCount == 0)
@@ -83,7 +102,6 @@ public class PlayerController : CharactersBase
             {
                 Instantiate(_laserPrefab, _bulletGeneratePos.position, transform.rotation);
             }
-            
         }
         else if (Input.GetKeyUp(KeyCode.Z))
         {
@@ -93,9 +111,11 @@ public class PlayerController : CharactersBase
             }
             _laserTimer = 0;
         }
-
-        
     }
 
-    
+    public void IsKnockBack(float dir)
+    {
+        _knockBackDir = dir;
+        _isKnockBack = true;
+    }
 }

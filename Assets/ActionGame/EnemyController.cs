@@ -14,6 +14,10 @@ public class EnemyController : CharactersBase
     bool _isAttack = false;
     bool _isHit = false;
     Vector3 _attackMoveDir;
+    bool _isKnockBack = false;
+    float _knockBackDir = 1;
+    [SerializeField] float _backTime;
+    float _backTimer;
     void Start()
     {
         _player = GameObject.FindGameObjectWithTag("Player");
@@ -23,10 +27,10 @@ public class EnemyController : CharactersBase
     // Update is called once per frame
     void Update()
     {
-        //if (_playerPos != null && Vector2.Distance(_playerPos.position, transform.position) < _attackDistance)
-        //{
-        //    Attack();
-        //}
+        if (_playerPos != null && Vector2.Distance(_playerPos.position, transform.position) < _attackDistance + 5)
+        {
+            Attack();
+        }
 
         //“ËiUŒ‚
         if (!_isAttack && _player != null && Vector2.Distance(_playerPos.position, transform.position) < _attackDistance)
@@ -46,6 +50,17 @@ public class EnemyController : CharactersBase
             }
         }
 
+        if(_isKnockBack)
+        {
+            _backTimer += Time.deltaTime;
+            Vector3 pos = transform.position;
+            pos.x += (0.3f * _knockBackDir);
+            transform.position = pos;
+            if(_backTimer > _backTime)
+            {
+                _isKnockBack = false;
+            }
+        }
     }
 
     private void OnBecameInvisible()
@@ -72,7 +87,15 @@ public class EnemyController : CharactersBase
         if (dir < hit)
         {
             _player.GetComponent<CharactersBase>().Damage(2);
+            _player.GetComponent<PlayerController>().IsKnockBack(1);
             _isHit = true;
         }
+    }
+
+    public void IsKnockBack(float dir)
+    {
+        _isKnockBack = true;
+        _knockBackDir = dir;
+        _backTime = 0;
     }
 }

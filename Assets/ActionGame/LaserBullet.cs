@@ -46,7 +46,7 @@ public class LaserBullet : MonoBehaviour
     {
         
     }
-    //レーザーと敵(円)の判定
+    //レーザーと敵(円)の判定外積を使用
     bool Hit(Transform target)
     {
         Vector3 vec = target.position - transform.position;
@@ -61,15 +61,16 @@ public class LaserBullet : MonoBehaviour
             return false;
         }
     }
-    //レーザーと敵の弾(矩形)の判定
+    //レーザーと敵の弾(矩形)の判定外積を使用
     bool Hit2(Transform target)
     {
-        Vector3 point = new Vector3(target.position.x - (target.localScale.x / 2),target.position.y) - transform.position;
-        Vector3 point2 = new Vector3(target.position.x + (target.localScale.x / 2),target.position.y)- transform.position;
-        float angle = Vector2.Angle(transform.right, point);
-        float angle2 = Vector2.Angle(transform.right, point2);
-        float dis = point.magnitude * Mathf.Sin(angle);
-        float dis2 = point2.magnitude * Mathf.Sin(angle2);
+        //今回バレットが小さいため二点で判定していく。レーザーの始点から各矩形の左端の点と右端の点のベクトルを取得
+        Vector3 leftpoint = new Vector3(target.position.x - (target.localScale.x / 2),target.position.y) - transform.position;
+        Vector3 rightpoint = new Vector3(target.position.x + (target.localScale.x / 2),target.position.y)- transform.position;
+        float angle = Vector2.Angle(transform.right, leftpoint);
+        float angle2 = Vector2.Angle(transform.right, rightpoint);
+        float dis = leftpoint.magnitude * Mathf.Sin(angle);
+        float dis2 = rightpoint.magnitude * Mathf.Sin(angle2);
 
         if((dis2 <= 0 && dis >= 0) || (dis2 >= 0 && dis2 <= 0))
         {
