@@ -29,6 +29,7 @@ public class LaserBullet : MonoBehaviour
             if (Hit(_enemyPos[i]))
             {
                 _enemy[i].GetComponent<CharactersBase>().Damage(3);
+                FindObjectOfType<GameManager>().HitStop(0.25f);
             }
         }
         for (int i = 0; i < _enemyBulletPos.Count; i++)
@@ -36,6 +37,7 @@ public class LaserBullet : MonoBehaviour
             Transform pos = _enemyBulletPos[i].GetComponent<Transform>();
             if(Hit2(pos))
             {
+                FindObjectOfType<GameManager>().HitStop(0.25f);
                 Destroy(_enemyBulletPos[i]);
             }
         }

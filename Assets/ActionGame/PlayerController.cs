@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : CharactersBase
+public class PlayerController : CharactersBase, HitStopControlle
 {
     [SerializeField, Header("レーザーPrefab")] GameObject _laserPrefab;
     /// <summary>キー何秒長押しでレーザーを生成させるか</summary>
@@ -25,6 +25,15 @@ public class PlayerController : CharactersBase
     float _knockBackDir = 1;
     [SerializeField] float _backTime;
     float _backTimer;
+    Vector3 _stopPos;
+    void HitStopControlle.HitStopStart()
+    {
+        _stopPos = transform.position;
+    }
+    void HitStopControlle.HitStopUpdate()
+    {
+        transform.position = _stopPos;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -100,6 +109,7 @@ public class PlayerController : CharactersBase
             _laserTimer += Time.deltaTime;
             if (_laserTimer > _laserTimeInterval && _laserTimer < _laserTimeInterval + Time.deltaTime)
             {
+                
                 Instantiate(_laserPrefab, _bulletGeneratePos.position, transform.rotation);
             }
         }
@@ -107,6 +117,7 @@ public class PlayerController : CharactersBase
         {
             if (_laserTimer < _laserTimeInterval)
             {
+                
                 Generate(transform.rotation);
             }
             _laserTimer = 0;

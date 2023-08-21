@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
-public class EnemyController : CharactersBase
+public class EnemyController : CharactersBase, HitStopControlle
 {
     [SerializeField, Header("攻撃を開始する時のPlayerとの距離")] float _attackDistance;
     [SerializeField, Header("弾を生成インターバル")] float _intervalTime;
@@ -18,6 +18,15 @@ public class EnemyController : CharactersBase
     float _knockBackDir = 1;
     [SerializeField] float _backTime;
     float _backTimer;
+    Vector3 _stopPos;
+    void HitStopControlle.HitStopStart()
+    {
+        _stopPos = transform.position;
+    }
+    void HitStopControlle.HitStopUpdate()
+    {
+        transform.position = _stopPos;
+    }
     void Start()
     {
         _player = GameObject.FindGameObjectWithTag("Player");
@@ -27,6 +36,7 @@ public class EnemyController : CharactersBase
     // Update is called once per frame
     void Update()
     {
+        //射撃
         if (_playerPos != null && Vector2.Distance(_playerPos.position, transform.position) < _attackDistance + 5)
         {
             Attack();

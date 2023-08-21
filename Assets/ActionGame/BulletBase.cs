@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class BulletBase : MonoBehaviour
+public class BulletBase : MonoBehaviour, HitStopControlle
 {
     [SerializeField] List<Transform> _targetPos;
     [SerializeField] List<CharactersBase> _targetCharactersBase;
@@ -13,6 +13,15 @@ public class BulletBase : MonoBehaviour
     [SerializeField] float _lifetime;
     [SerializeField] bool _isPlayer;
     Vector2 dir;
+    Vector3 _stopPos;
+    void HitStopControlle.HitStopStart()
+    {
+        _stopPos = transform.position;
+    }
+    void HitStopControlle.HitStopUpdate()
+    {
+        transform.position = _stopPos;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -82,7 +91,9 @@ public class BulletBase : MonoBehaviour
             {
                 Transform target = _targetPos[i];
                 if (HitJudge2(target))
+                if (HitJudge2(target))
                 {
+                    FindObjectOfType<GameManager>().HitStop(0.08f);
                     _targetCharactersBase[i].Damage(1);
                     float vec = transform.position.x - target.position.x;
                     if (_targetTagName == "Player")
