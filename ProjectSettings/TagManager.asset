@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Enemy
   - EnemyBullet
+  - Skill
+  - Takarabako
+  - LavelUp
   layers:
   - Default
   - TransparentFX
