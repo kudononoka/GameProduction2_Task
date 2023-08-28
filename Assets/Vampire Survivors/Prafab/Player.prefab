@@ -100,7 +100,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b57833bf0c7d0d48a1c99bab862ed1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _walkSpeed: 7
+  _walkSpeed: 8
+  _pointNum: 0
 --- !u!61 &4810250208390928922
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -217,7 +218,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6653089284297842496, guid: 15e0a5e3a723d1948b3ab5138c6c6df8, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7303642708723213556, guid: 15e0a5e3a723d1948b3ab5138c6c6df8, type: 3}
       propertyPath: m_Mass

@@ -17,6 +17,7 @@ public abstract class SkillBase : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        //Enemy‚É“–‚½‚Á‚½‚ç
         if (collision.gameObject.layer == 6)
         {
             collision.gameObject.GetComponent<Enemy>().Damage(_attackPower);

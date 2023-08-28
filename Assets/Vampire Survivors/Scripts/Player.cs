@@ -10,6 +10,10 @@ public class Player : MonoBehaviour
     /// <summary>現在所持しているSkill</summary>
     List<SkillBase> _skills = new List<SkillBase>();
     [SerializeField, Header("歩行速度")] float _walkSpeed;
+    [Space]
+    [Header("確認用")]
+    /// <summary>経験値</summary>
+    [SerializeField,Header("経験値")]int _pointNum = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -56,5 +60,12 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
          _rb.velocity = new Vector2(_dirX, _dirY) * _walkSpeed;
+    }
+
+    /// <summary>経験値をUpさせるメソッド</summary>
+    /// <param name="upPoint">Up数</param>
+    public void PointNumUp(int upPoint)
+    {
+        _pointNum += upPoint;
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine.Pool;
 
 public class Enemy : EnemyBase
 {
+    ItemFieldInstance _itemFieldInstance;
     CreateObject _createObject;
     Transform _playerTra;
     Rigidbody2D _rb;
@@ -13,6 +14,7 @@ public class Enemy : EnemyBase
     {
         _rb = GetComponent<Rigidbody2D>();
         _createObject = FindObjectOfType<CreateObject>();
+        _itemFieldInstance = FindObjectOfType<ItemFieldInstance>();
         _playerTra = GameObject.FindWithTag("Player").GetComponent<Transform>();
         _nowhp = _maxhp;
     }
@@ -23,11 +25,15 @@ public class Enemy : EnemyBase
         _rb.velocity = dir * _walkSpeed;
     }
 
+    /// <summary>É_ÉÅÅ[ÉWÇ™â¡ÇÌÇËÇ‹Ç∑</summary>
+    /// <param name="damage"></param>
     public void Damage(int damage)
     {
         _nowhp -= damage;
         if (_nowhp <= 0)
         {
+            GameObject go = _itemFieldInstance.InstanceItem(InstanceItemState.PointUp, this.gameObject.transform.position);
+            go.GetComponent<pointUp>().PointUpNum = _point;
             _createObject.ReleaseEnemy(this);
         }
     }

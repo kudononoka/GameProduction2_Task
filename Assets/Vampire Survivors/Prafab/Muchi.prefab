@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7753528152461952227}
   - component: {fileID: 7303642708723213556}
   - component: {fileID: 4861599142406112524}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Muchi
   m_TagString: Skill
   m_Icon: {fileID: 0}
