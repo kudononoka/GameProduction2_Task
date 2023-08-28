@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManagerVampireSurvivors : MonoBehaviour
 {
+    bool _isPause = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +15,25 @@ public class GameManagerVampireSurvivors : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void PauseReaume()
+    {
+        _isPause = !_isPause;
+        var objects = FindObjectsOfType<GameObject>();
+
+        foreach (var o in objects)
+        {
+            IPause i = o.GetComponent<IPause>();
+
+            if (_isPause)
+            {
+                i?.Pause();     
+            }
+            else
+            {
+                i?.Resume();
+            }
+        }
     }
 }

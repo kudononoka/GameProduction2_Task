@@ -1,9 +1,10 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class Enemy : EnemyBase
+public class Enemy : EnemyBase, IPause
 {
     ItemFieldInstance _itemFieldInstance;
     CreateObject _createObject;
@@ -36,6 +37,17 @@ public class Enemy : EnemyBase
             go.GetComponent<pointUp>().PointUpNum = _point;
             _createObject.ReleaseEnemy(this);
         }
+    }
+
+    void IPause.Pause()
+    {
+        _rb.simulated = false;
+        _rb.Sleep();
+    }
+    void IPause.Resume()
+    {
+        _rb.simulated = true;
+        _rb.WakeUp();
     }
 
 }

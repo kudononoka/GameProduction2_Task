@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySpawner : MonoBehaviour
+public class EnemySpawner : MonoBehaviour, IPause
 {
     LevelParamerter _prameter = new LevelParamerter();
     EnemyLevelUpControlle _levelData = new EnemyLevelUpControlle();
@@ -14,6 +14,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField, Header("EnemyLevelUpTime")] float _levelUpTime;
     float _timer;
     float _levelUpTimer;
+    [SerializeField]bool _isPause;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,25 +33,35 @@ public class EnemySpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = _player.position;
-        _timer += Time.deltaTime;
-        _levelUpTimer += Time.deltaTime;
-        if(_levelUpTimer > _levelUpTime)
+        if(!_isPause)
         {
-            _prameter = _levelData.LevelSet();
-            _levelUpTimer = 0;
-        }
-        
-        if(_timer > _interval)
-        {
-            _timer = 0;
-            int index = Random.Range( 0, _spawnPos.Length);
-            Enemy enemy = _createObject.PoolGetEnemy(_spawnPos[index].position);
-            EnemyBase enemyBase = enemy as EnemyBase;
-            enemyBase.ParamerterSet(_prameter.Level, _prameter.MaxHp, _prameter.PointUpNum, _prameter.WalkSpeed, _prameter.AttackPower);
-        }
+            transform.position = _player.position;
+            _timer += Time.deltaTime;
+            _levelUpTimer += Time.deltaTime;
+            if (_levelUpTimer > _levelUpTime)
+            {
+                _prameter = _levelData.LevelSet();
+                _levelUpTimer = 0;
+            }
 
+            if (_timer > _interval)
+            {
+                _timer = 0;
+                int index = Random.Range(0, _spawnPos.Length);
+                Enemy enemy = _createObject.PoolGetEnemy(_spawnPos[index].position);
+                EnemyBase enemyBase = enemy as EnemyBase;
+                enemyBase.ParamerterSet(_prameter.Level, _prameter.MaxHp, _prameter.PointUpNum, _prameter.WalkSpeed, _prameter.AttackPower);
+            }
+        }
     }
 
+    void IPause.Pause()
+    {
+        _isPause = true;
+    }
+    void IPause.Resume()
+    {
+        _isPause = false;
+    }
 
 }

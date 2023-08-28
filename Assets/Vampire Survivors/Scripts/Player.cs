@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IPause
 {
+    bool _isPause = false;
     Rigidbody2D _rb;
     float _dirX = 0;
     float _dirY = 0;
@@ -26,34 +27,37 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        for(int i = 0; i < _skills.Count; i++)
+        if(!_isPause)
         {
-            SkillBase skill = _skills[i];
-            skill.Timer += Time.deltaTime;
-            //Skillのオブジェクトの生存時間が過ぎたら
-            if (skill.Timer > (skill.IntervalTime + skill.LifeTime))
+            for (int i = 0; i < _skills.Count; i++)
             {
-                //消す
-                skill.Active(false);
-                skill.Timer = 0;
+                SkillBase skill = _skills[i];
+                skill.Timer += Time.deltaTime;
+                //Skillのオブジェクトの生存時間が過ぎたら
+                if (skill.Timer > (skill.IntervalTime + skill.LifeTime))
+                {
+                    //消す
+                    skill.Active(false);
+                    skill.Timer = 0;
+                }
+                //一定時間たったら
+                else if (_skills[i].Timer > skill.IntervalTime)
+                {
+                    //生成
+                    skill.Active(true);
+                }
             }
-            //一定時間たったら
-            else if (_skills[i].Timer > skill.IntervalTime)
+
+            _dirX = Input.GetAxisRaw("Horizontal");
+            _dirY = Input.GetAxisRaw("Vertical");
+            if (_dirX == 1)
             {
-                //生成
-                skill.Active(true);
+                transform.rotation = Quaternion.Euler(0f, 0f, 0f);
             }
-        }
-        
-        _dirX = Input.GetAxisRaw("Horizontal");
-        _dirY = Input.GetAxisRaw("Vertical");
-        if(_dirX == 1)
-        {
-            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-        }
-        if (_dirX == -1)
-        {
-            transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+            if (_dirX == -1)
+            {
+                transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+            }
         }
     }
 
@@ -67,5 +71,18 @@ public class Player : MonoBehaviour
     public void PointNumUp(int upPoint)
     {
         _pointNum += upPoint;
+    }
+
+    void IPause.Pause()
+    {
+        _rb.Sleep();
+        _rb.simulated = false;
+        _isPause = true;
+    }
+    void IPause.Resume()
+    {
+        _isPause = false;
+        _rb.simulated = true;
+        _rb.WakeUp();
     }
 }
