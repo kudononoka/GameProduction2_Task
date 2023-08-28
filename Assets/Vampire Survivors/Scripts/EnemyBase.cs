@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class EnemyBase : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField, Header("ï‡çsë¨ìx")]protected float _walkSpeed;
+    [SerializeField, Header("HPç≈ëÂíl")] protected int _maxhp;
+    [SerializeField, Header("çUåÇóÕ")] protected int _attackPower;
+    protected int _nowhp;
+    
 }
